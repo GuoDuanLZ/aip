@@ -15,20 +15,43 @@
 // This file contains JavaScript-applied rules that can be applied
 // to documentation sites using this Jekyll theme generally.
 $.when($.ready).then(() => {
+  let calloutMap = {
+    "Important:" : "important",
+    "Note:" : "note",
+    "TL;DR:" : "tl dr",
+    "Warning:" : "warning",
+    "重要：" : "important",
+    "注意：" : "note",
+    "警告：" : "warning",
+  };
+
   // Make callouts for notes, warnings, etc. work.
-  for (let callout of ['Important', 'Note', 'TL;DR', 'Warning']) {
-    $(`p strong:contains(${callout}:)`)
+  for (let callout in calloutMap) {
+    $(`p strong:contains(${callout})`)
       .parent()
-      .addClass(callout.replace(';', '').toLowerCase());
+      .addClass(calloutMap[callout]);
   }
+
+  let directiveMap = {
+    "may" : "may",
+    "must": "must",
+    "must not": "must",
+    "should" : "should",
+    "should not" : "should",
+    "可以" : "may",
+    "必须": "must",
+    "必须不": "must",
+    "应该" : "should",
+    "应该不" : "should",
+  };
 
   // Make "spec terms" (must, should, may, must not, should not) that
   // are bold-faced be further emphasized.
-  for (let directive of ['may', 'must', 'must not', 'should', 'should not']) {
+  for (let directive in directiveMap) {
     $('strong')
       .filter((i, el) => $(el).text() === directive)
       .addClass('spec-directive')
-      .addClass(`spec-${directive.split(' ')[0]}`);
+      .addClass(`spec-${directiveMap[directive]}`);
   }
 
   // Make AIP banners appear in a better spot.
